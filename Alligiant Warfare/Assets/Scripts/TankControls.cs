@@ -5,32 +5,34 @@ using UnityEngine.UI;
 
 public class TankControls : MonoBehaviour
 {
+    //references
     private Transform tankPos;
-    public GameObject bullet, barrel;
-    private Rigidbody2D rb;
-    private Vector3 move;
-    public Joystick joystick;
+    public GameObject bullet, barrel, barrel2, joystickRight, fireButton, tank1, tank2, tankTread;
+    private Rigidbody2D rb, treadRigid;
+    private Vector3 move, moveBod;
+    public Joystick joystick1, joystick2;
     public Dropdown drop;
+    //variables
     private int selection;
     private bool fireButtonDown;
-    private float direction, speed, bulletSpeed, firerate = 0.5f, nextfire;
+    private float direction, direction2, speed, bulletSpeed, firerate = 0.5f, nextfire;
+    //Optimization
+    public Slider moveSpeedSli, fireRateSli;
+    public Text moveSpeedText, fireRateText;
     void Start()
     {
-        tankPos = GetComponent<Transform>();
+        tankPos = this.GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
+        treadRigid = tankTread.GetComponent<Rigidbody2D>();
         speed = 5f;
         bulletSpeed = 10f;
         fireButtonDown = false;
     }
 
-    void Update()
+    void LateUpdate()
     {
         GetInput();
-        if (fireButtonDown && Time.time > nextfire)
-        {
-            nextfire = Time.time + firerate;
-            Shoot();
-        }
+        Debug();
     }
 
     private void FixedUpdate()
@@ -38,21 +40,76 @@ public class TankControls : MonoBehaviour
         Move();
     }
 
+    void Debug()
+    {
+        speed = moveSpeedSli.value;
+        moveSpeedText.text = $"Move Speed: {moveSpeedSli.ToString()}";
+        firerate = fireRateSli.value;
+        moveSpeedText.text = $"Fire Rate: {fireRateSli.value.ToString()}";
+    }
     void GetInput()
     {
-        move.x = joystick.Horizontal;
-        move.y = joystick.Vertical;
-        selection = drop.value;
+        //tank1
+        move.x = joystick1.Horizontal;
+        move.y = joystick1.Vertical;
         direction = Mathf.Atan2(move.x, move.y) * Mathf.Rad2Deg;
+        //tank2
+        moveBod.x = joystick2.Horizontal;
+        moveBod.y = joystick2.Vertical;
+        direction2 = Mathf.Atan2(moveBod.x, moveBod.y) * Mathf.Rad2Deg;
+
+        //other
+        selection = drop.value;
+        if (fireButtonDown && Time.time > nextfire)
+        {
+            nextfire = Time.time + firerate;
+            Shoot();
+        }
+        //selection
+        if (selection == 1)
+        {
+            joystickRight.SetActive(true);
+            fireButton.SetActive(false);
+            tank1.SetActive(false);
+            tank2.SetActive(true);
+            tankTread.SetActive(true);
+        } else
+        {
+            joystickRight.SetActive(false);
+            fireButton.SetActive(true);
+            tank1.SetActive(true);
+            tank2.SetActive(false);
+            tankTread.SetActive(false);
+        }
     }
 
     private void Move()
     {
-        if (move.x != 0 || move.y != 0)
+        //tankOne
+        if (gameObject.name == "Tank")
         {
-            tankPos.eulerAngles = new Vector3(0, 0, -direction);
+            if (move.x != 0 || move.y != 0)
+            {
+                tankPos.eulerAngles = new Vector3(0, 0, -direction);
+            }
+            rb.MovePosition(transform.position + move * speed * Time.deltaTime);
         }
-        rb.MovePosition(transform.position + move * speed * Time.deltaTime);
+        //TankTwo
+        if (gameObject.name == "Tank2")
+        {
+            //tread
+            tank2.transform.position = tankTread.transform.position;
+            if (move.x != 0 || move.y != 0)
+            {
+                tankTread.transform.eulerAngles = new Vector3(0, 0, -direction);
+            }
+            treadRigid.MovePosition(transform.position + move * speed * Time.deltaTime);
+            //body
+            if (moveBod.x != 0 || moveBod.y != 0)
+            {
+                tank2.transform.eulerAngles = new Vector3(0, 0, -direction2);
+            }
+        }
     }
 
     public void FireButton(bool buttonPushed)
@@ -60,17 +117,28 @@ public class TankControls : MonoBehaviour
         if (buttonPushed == true)
         {
             fireButtonDown = true;
-        } else
+        } 
+        else
         {
             fireButtonDown = false;
         }
     }
 
     private void Shoot()
-    {
-        GameObject projectile = Instantiate(bullet, barrel.transform.position, barrel.transform.rotation);
-        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-        rb.AddForce(barrel.transform.up * bulletSpeed, ForceMode2D.Impulse);
-        Destroy(projectile, 3);
+    {   
+        if (gameObject.name == "Tank")
+        {
+            GameObject projectile = Instantiate(bullet, barrel.transform.position, barrel.transform.rotation);
+            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+            rb.AddForce(barrel.transform.up * bulletSpeed, ForceMode2D.Impulse);
+            Destroy(projectile, 3);
+        }
+        else
+        {
+            GameObject projectile = Instantiate(bullet, barrel2.transform.position, barrel2.transform.rotation);
+            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+            rb.AddForce(barrel2.transform.up * bulletSpeed, ForceMode2D.Impulse);
+            Destroy(projectile, 3);
+        }
     }
 }
