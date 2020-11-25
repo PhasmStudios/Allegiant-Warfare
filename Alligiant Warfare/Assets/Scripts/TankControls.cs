@@ -7,21 +7,27 @@ using UnityEngine.Animations;
 public class TankControls : MonoBehaviour
 {
     //references
-    public Animator animator;
+    private Animator animator;
     public GameObject bullet, barrel, tank, tankTread;
+    private GameObject optimization;
     private Rigidbody2D rb;
-    public Vector3 move, moveBod;
+    private Vector3 move, moveBod;
     public Joystick joystick1, joystick2;
     //variables
     private bool fireButtonDown;
     public int tankNumber;
     private float direction, direction2, speed, bulletSpeed, firerate = 0.5f, nextfire;
     //Optimization
-    public Slider moveSpeedSli, fireRateSli;
-    public Text moveSpeedText, fireRateText;
+    public Slider moveSpeedSli, fireRateSli, bulletSpeedSli;
+    public Text moveSpeedText, fireRateText, bulletSpeedText;
+    public Toggle debugToggle;
     void Start()
     {
+        animator = GetComponent<Animator>();
+        moveSpeedSli.value = speed;
+        fireRateSli.value = firerate;
         rb = GetComponent<Rigidbody2D>();
+        optimization = GameObject.Find("Optimization");
         speed = 5f;
         bulletSpeed = 10f;
         fireButtonDown = false;
@@ -41,9 +47,19 @@ public class TankControls : MonoBehaviour
     void Debug()
     {
         speed = moveSpeedSli.value;
-        moveSpeedText.text = $"Move Speed: {moveSpeedSli.ToString()}";
+        moveSpeedText.text = $"Move Speed: {speed.ToString("0.00")}";
         firerate = fireRateSli.value;
-        moveSpeedText.text = $"Fire Rate: {fireRateSli.value.ToString()}";
+        fireRateText.text = $"Fire Rate: {firerate.ToString("0.00")}";
+        bulletSpeed = bulletSpeedSli.value;
+        bulletSpeedText.text = $"Bullet Speed: {bulletSpeed.ToString("0.00")}";
+        if (debugToggle.isOn == true)
+        {
+            optimization.SetActive(true);
+        }
+        else
+        {
+            optimization.SetActive(false);
+        }
     }
     void GetInput()
     {
@@ -70,6 +86,7 @@ public class TankControls : MonoBehaviour
         {
             animator.SetFloat("Speed", 1);
         }
+        
     }
 
     private void Move()
