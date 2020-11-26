@@ -8,14 +8,14 @@ public class TankControls : MonoBehaviour
 {
     //references
     private Animator animator;
-    public GameObject bullet, barrel, tank, tankTread;
+    public GameObject bullet, barrel, tank, tankTread, tankBody;
     private GameObject optimization;
     private Rigidbody2D rb;
     private Vector3 move, moveBod;
     public Joystick joystick1, joystick2;
+    private TankSkin script;
     //variables
     private bool fireButtonDown;
-    public int tankNumber;
     private float direction, direction2, speed, bulletSpeed, firerate = 0.5f, nextfire;
     //Optimization
     public Slider moveSpeedSli, fireRateSli, bulletSpeedSli;
@@ -23,6 +23,8 @@ public class TankControls : MonoBehaviour
     public Toggle debugToggle;
     void Start()
     {
+        tankBody = GameObject.Find("TankBody");
+        script = tankBody.GetComponent<TankSkin>();
         animator = GetComponent<Animator>();
         moveSpeedSli.value = speed;
         fireRateSli.value = firerate;
@@ -78,7 +80,7 @@ public class TankControls : MonoBehaviour
             Shoot();
         }
         //animation
-        animator.SetInteger("Tank", tankNumber);
+        animator.SetInteger("Tank", script.tankNumber);
         if (move.x == 0 && move.y == 0)
         {
             animator.SetFloat("Speed", 0);
