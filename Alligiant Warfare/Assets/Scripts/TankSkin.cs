@@ -5,31 +5,31 @@ using UnityEngine;
 public class TankSkin : MonoBehaviour
 {
     public Sprite[] sprites;
-    public GameObject pauseMenu;
-    public int tankNumber;
+    public static int tankNumber;
+    public int nonNumber;
+    
     void Start()
     {
-        tankNumber = 1;
+        
+        if (gameObject.name == "TankBody")
+        {
+            tankNumber = 1;
+        }
+        nonNumber = tankNumber;
+        this.GetComponent<SpriteRenderer>().sprite = sprites[nonNumber - 1];
+
     }
     void Update()
     {
-        this.GetComponent<SpriteRenderer>().sprite = sprites[tankNumber - 1];
+        nonNumber = tankNumber;
+        this.GetComponent<SpriteRenderer>().sprite = sprites[nonNumber - 1];
     }
 
-    public void Pause()
-    {
-        pauseMenu.SetActive(true);
-        Time.timeScale = 0;
-    }
-
-    public void Unpause()
-    {
-        pauseMenu.SetActive(false);
-        Time.timeScale = 1;
-    }
 
     public void ChangeSkin(int number)
     {
         tankNumber = number;
     }
+
+    
 }

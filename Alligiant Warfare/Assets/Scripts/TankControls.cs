@@ -9,6 +9,7 @@ public class TankControls : MonoBehaviour
     //references
     private Animator animator;
     public GameObject bullet, barrel, tank, tankTread, tankBody;
+    public GameObject pauseMenu;
     private GameObject optimization;
     private Rigidbody2D rb;
     private Vector3 move, moveBod;
@@ -17,9 +18,11 @@ public class TankControls : MonoBehaviour
     //variables
     private bool fireButtonDown;
     private float direction, direction2, speed, bulletSpeed, firerate = 0.5f, nextfire;
+    public float damage;
+    private int health = 50;
     //Optimization
-    public Slider moveSpeedSli, fireRateSli, bulletSpeedSli;
-    public Text moveSpeedText, fireRateText, bulletSpeedText;
+    public Slider moveSpeedSli, fireRateSli, bulletSpeedSli, damageSli;
+    public Text moveSpeedText, fireRateText, bulletSpeedText, damageText, healthText;
     public Toggle debugToggle;
     void Start()
     {
@@ -54,6 +57,9 @@ public class TankControls : MonoBehaviour
         fireRateText.text = $"Fire Rate: {firerate.ToString("0.00")}";
         bulletSpeed = bulletSpeedSli.value;
         bulletSpeedText.text = $"Bullet Speed: {bulletSpeed.ToString("0.00")}";
+        damage = damageSli.value;
+        damageText.text = $"Bullet Damage: {damage.ToString("0.00")}";
+        healthText.text = $"Health: {health}";
         if (debugToggle.isOn == true)
         {
             optimization.SetActive(true);
@@ -80,7 +86,7 @@ public class TankControls : MonoBehaviour
             Shoot();
         }
         //animation
-        animator.SetInteger("Tank", script.tankNumber);
+        animator.SetInteger("Tank", script.nonNumber);
         if (move.x == 0 && move.y == 0)
         {
             animator.SetFloat("Speed", 0);
@@ -122,5 +128,26 @@ public class TankControls : MonoBehaviour
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
         rb.AddForce(barrel.transform.up * bulletSpeed, ForceMode2D.Impulse);
         Destroy(projectile, 3);
+    }
+
+    public void Pause()
+    {
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void Unpause()
+    {
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Enemy")
+        {
+            collision.collider.gameObject.GetComponent<Enemies>().damage -= health;
+            Destroy(collision.collider.gameObject);
+        }
     }
 }
