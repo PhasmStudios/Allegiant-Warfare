@@ -53,7 +53,7 @@ public class EnemyMaanager : MonoBehaviour
                 GameObject enemyObject = Instantiate(enemy[2]);
                 Destroy(enemyObject, 10);
             }
-            yield return new WaitForSeconds(Random.Range(1f, 1f));
+            yield return new WaitForSeconds(Random.Range(10f, 15f));
         }
     }
 }
