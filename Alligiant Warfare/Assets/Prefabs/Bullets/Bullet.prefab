@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4991020261066296270}
   - component: {fileID: 2719202050255056346}
   - component: {fileID: 3132270837919980248}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,5 +148,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8f9197f78469f144f94aec13996b085b, type: 3}
   - {fileID: 21300000, guid: 3e1568816e915e947a523765ff317bad, type: 3}
   - {fileID: 21300000, guid: 785e0cd6a0e8eaa4ab8f4ec8885b010b, type: 3}
-  pauseMenu: {fileID: 0}
-  number: 0
+  nonNumber: 0

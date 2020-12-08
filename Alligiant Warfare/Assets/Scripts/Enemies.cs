@@ -8,6 +8,7 @@ public class Enemies : MonoBehaviour
     private float health, speed, spawnRange, direction, directionlimit, timeManager;
     public int damage;
     private GameObject tank;
+    public GameObject circleBullets;
     private TankControls script;
     void Start()
     {
@@ -30,6 +31,13 @@ public class Enemies : MonoBehaviour
                 damage = 3;
                 directionlimit = Random.Range(50, 70);
                 break;
+            case "CircleBombEnemy(Clone)":
+                type = "CircleB";
+                health = 5;
+                speed = 1f;
+                spawnRange = 6;
+                damage = 1;
+                break;
 
         }
         transform.position = new Vector3(Random.Range(-spawnRange, spawnRange), 7);
@@ -47,7 +55,7 @@ public class Enemies : MonoBehaviour
 
     void Move()
     {
-        if (type == "square")
+        if (type == "square" || type == "CircleB")
         {
             transform.Translate(new Vector2(0, -speed) * Time.deltaTime);
         }
@@ -69,9 +77,16 @@ public class Enemies : MonoBehaviour
 
     void GetInput()
     {
-        if (health < 0)
+        if (health <= 0.01f)
         {
-            Destroy(gameObject);
+            if (type != "CircleB")
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Explode();
+            }
         }
     }
 
@@ -98,5 +113,17 @@ public class Enemies : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    void Explode()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            GameObject bullet = Instantiate(circleBullets, transform.position, Quaternion.Euler(transform.rotation.x, transform.rotation.y, i * 45));
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            rb.AddForce(bullet.transform.up * 7f, ForceMode2D.Impulse);
+            Destroy(bullet, 7);
+        }
+        Destroy(gameObject);
     }
 }

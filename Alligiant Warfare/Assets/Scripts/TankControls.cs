@@ -19,7 +19,8 @@ public class TankControls : MonoBehaviour
     private bool fireButtonDown;
     private float direction, direction2, speed, bulletSpeed, firerate = 0.5f, nextfire;
     public float damage;
-    private int health = 50;
+    public int health = 50, damageTaken;
+    
     //Optimization
     public Slider moveSpeedSli, fireRateSli, bulletSpeedSli, damageSli;
     public Text moveSpeedText, fireRateText, bulletSpeedText, damageText, healthText;
@@ -42,6 +43,7 @@ public class TankControls : MonoBehaviour
     {
         GetInput();
         Debug();
+        Barrier();
     }
 
     private void FixedUpdate()
@@ -130,6 +132,25 @@ public class TankControls : MonoBehaviour
         Destroy(projectile, 3);
     }
 
+    private void Barrier()
+    {
+        if (transform.position.x < -8.164f)
+        {
+            transform.position = new Vector2(-8.164f, transform.position.y);
+        }
+        if (transform.position.x > 8.164f)
+        {
+            transform.position = new Vector2(8.164f, transform.position.y);
+        }
+        if (transform.position.y < -4.281f)
+        {
+            transform.position = new Vector2(transform.position.x, -4.281f + Camera.main.transform.position.y);
+        }
+        if (transform.position.y > 4.281f)
+        {
+            transform.position = new Vector2(transform.position.x, 4.281f + Camera.main.transform.position.y);
+        }
+    }
     public void Pause()
     {
         pauseMenu.SetActive(true);
@@ -146,7 +167,12 @@ public class TankControls : MonoBehaviour
     {
         if (collision.collider.tag == "Enemy")
         {
-            collision.collider.gameObject.GetComponent<Enemies>().damage -= health;
+            health -= collision.collider.gameObject.GetComponent<Enemies>().damage;
+            Destroy(collision.collider.gameObject);
+        }
+        else if (collision.collider.name == "CircleBullet(Clone)")
+        {
+            health -= 1;
             Destroy(collision.collider.gameObject);
         }
     }

@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class EnemyMaanager : MonoBehaviour
 {
     public GameObject[] enemy;
-    public Toggle squareCheck, triangleCheck;
+    public Toggle squareCheck, triangleCheck, circleBombCheck;
 
     private void Start()
     {
         StartCoroutine(SpawnSquares());
         StartCoroutine(SpawnTriangles());
+        StartCoroutine(SpawnCircles());
     }
     private void Update()
     {
@@ -21,11 +22,12 @@ public class EnemyMaanager : MonoBehaviour
     {
         while (true)
         {
-            if (squareCheck)
+            if (squareCheck.isOn)
             {
-                Instantiate(enemy[0]);
+                GameObject enemyObject = Instantiate(enemy[0]);
+                Destroy(enemyObject, 5);
             }
-            yield return new WaitForSeconds(Random.Range(5f, 8f));
+            yield return new WaitForSeconds(Random.Range(3f, 5f));
         }
     }
 
@@ -33,11 +35,25 @@ public class EnemyMaanager : MonoBehaviour
     {
         while (true)
         {
-            if (triangleCheck)
+            if (triangleCheck.isOn)
             {
-                Instantiate(enemy[1]);
+                GameObject enemyObject = Instantiate(enemy[1]);
+                Destroy(enemyObject, 10);
             }
-            yield return new WaitForSeconds(Random.Range(5f, 10f));
+            yield return new WaitForSeconds(Random.Range(5f, 8f));
+        }
+    }
+
+    IEnumerator SpawnCircles()
+    {
+        while (true)
+        {
+            if (circleBombCheck.isOn)
+            {
+                GameObject enemyObject = Instantiate(enemy[2]);
+                Destroy(enemyObject, 10);
+            }
+            yield return new WaitForSeconds(Random.Range(1f, 1f));
         }
     }
 }
