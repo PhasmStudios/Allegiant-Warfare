@@ -155,7 +155,7 @@ public class Enemies : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
-            GameObject projectile = Instantiate(turretBullets, turretBarrel.transform.position, turretBarrel.transform.rotation);
+            GameObject projectile = Instantiate(turretBullets, turretBarrel.transform.position, Quaternion.identity);
             Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
             rb.AddForce(turretBarrel.transform.up * 10, ForceMode2D.Impulse);
             Destroy(projectile, 3);
