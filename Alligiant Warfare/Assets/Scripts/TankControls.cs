@@ -175,5 +175,10 @@ public class TankControls : MonoBehaviour
             health -= 1;
             Destroy(collision.collider.gameObject);
         }
+        else if (collision.collider.gameObject.name == "TurretBullet(Clone)")
+        {
+            health -= 3;
+            Destroy(collision.collider.gameObject);
+        }
     }
 }

@@ -5,10 +5,11 @@ using UnityEngine;
 public class Enemies : MonoBehaviour
 {
     public string type;
-    private float health, speed, spawnRange, direction, directionlimit, timeManager;
+    private float health, speed, spawnRange, direction, directionlimit, timeManager, turretDirection;
     public int damage;
     private GameObject tank;
-    public GameObject circleBullets;
+    public GameObject circleBullets, turretBullets;
+    public Transform turretBody, turretBarrel;
     private TankControls script;
     void Start()
     {
@@ -38,9 +39,37 @@ public class Enemies : MonoBehaviour
                 spawnRange = 6;
                 damage = 1;
                 break;
-
+            case "EnemyTurret":
+                type = "turret";
+                health = 5;
+                speed = 2f;
+                turretDirection = Random.Range(1, 3);
+                break;
         }
-        transform.position = new Vector3(Random.Range(-spawnRange, spawnRange), 7);
+        Destroy(gameObject, 10);
+        //turrets
+        if(type != "turret")
+        {
+            transform.position = new Vector3(Random.Range(-spawnRange, spawnRange), 7);
+            
+        }
+        else
+        {
+            StartCoroutine(TurretShoot());
+            if (turretDirection == 1)
+            {
+                transform.position = new Vector3(-11, 3.5f);
+                transform.rotation = Quaternion.Euler(0, 0, 90);
+                turretBody.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (turretDirection == 2)
+            {
+                transform.position = new Vector3(11, 3.5f);
+                transform.rotation = Quaternion.Euler(0, 0, -90);
+                turretBody.rotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+        //turrets end
         if (type == "triangle")
         {
             StartCoroutine(DirectionChange());
@@ -51,6 +80,7 @@ public class Enemies : MonoBehaviour
     {
         Move();
         GetInput();
+        
     }
 
     void Move()
@@ -63,6 +93,11 @@ public class Enemies : MonoBehaviour
         {
             transform.Translate(new Vector2(0, -speed) * Time.deltaTime);
             this.transform.eulerAngles = new Vector3(0, 0, direction);
+        }
+        else if (type == "turret")
+        {
+
+            transform.Translate(new Vector2(0, -speed) * Time.deltaTime);
         }
     }
 
@@ -112,6 +147,18 @@ public class Enemies : MonoBehaviour
                 yield return null;
             }
             yield return null;
+        }
+    }
+
+    IEnumerator TurretShoot()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            GameObject projectile = Instantiate(turretBullets, turretBarrel.transform.position, turretBarrel.transform.rotation);
+            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+            rb.AddForce(turretBarrel.transform.up * 10, ForceMode2D.Impulse);
+            Destroy(projectile, 3);
         }
     }
 
