@@ -3042,10 +3042,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4689737c1f3c7488137bfdcd4af0ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turretType: 0
   turretSprites:
   - {fileID: 21300000, guid: 21c3df6bfc81df74685f1945ce369630, type: 3}
   - {fileID: 21300000, guid: dba64f0417936134eba6b47fb1a5dab4, type: 3}
   - {fileID: 21300000, guid: b6482262bc0e4314ba1af43cee023498, type: 3}
+  - {fileID: 21300000, guid: 21c3df6bfc81df74685f1945ce369630, type: 3}
+  - {fileID: 21300000, guid: 21c3df6bfc81df74685f1945ce369630, type: 3}
   barrelOne: {fileID: 332666616}
   barrelTwoRight: {fileID: 173350587}
   barrelTwoLeft: {fileID: 1211479208}

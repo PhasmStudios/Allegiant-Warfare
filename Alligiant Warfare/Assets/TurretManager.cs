@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class TurretManager : MonoBehaviour
 {
-    private int turretType;
+    public int turretType;
+    private float fireRate;
     public Sprite[] turretSprites;
     public GameObject barrelOne, barrelTwoRight, barrelTwoLeft, barrelThreeRight, barrelThreeLeft, barrelThreeMiddle, turretBullets;
     void Start()
     {
-        turretType = Random.Range(1, 4);
+        turretType = Random.Range(1, 6);
         this.GetComponent<SpriteRenderer>().sprite = turretSprites[turretType - 1];
         StartCoroutine(TurretShoot());
     }
@@ -22,9 +23,17 @@ public class TurretManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.5f);
-            if (turretType == 1)
+            yield return new WaitForSeconds(fireRate);
+            if (turretType == 1 || turretType == 5)
             {
+                if (turretType == 1)
+                {
+                    fireRate = 0.5f;
+                }
+                if (turretType == 5)
+                {
+                    fireRate = 0.2f;
+                }
                 GameObject projectile = Instantiate(turretBullets, barrelOne.transform.position, Quaternion.identity);
                 Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
                 rb.AddForce(barrelOne.transform.up * 10, ForceMode2D.Impulse);
@@ -32,6 +41,7 @@ public class TurretManager : MonoBehaviour
             }
             else if (turretType == 2)
             {
+                fireRate = 0.5f;
                 //one
                 GameObject projectile = Instantiate(turretBullets, barrelTwoLeft.transform.position, Quaternion.identity);
                 Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
@@ -43,8 +53,9 @@ public class TurretManager : MonoBehaviour
                 rb2.AddForce(barrelTwoRight.transform.up * 10, ForceMode2D.Impulse);
                 Destroy(projectile, 4);
             }
-            else
+            else if (turretType == 3)
             {
+                fireRate = 0.5f;
                 //one
                 GameObject projectile = Instantiate(turretBullets, barrelThreeLeft.transform.position, Quaternion.identity);
                 Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
@@ -60,6 +71,18 @@ public class TurretManager : MonoBehaviour
                 Rigidbody2D rb3 = projectile3.GetComponent<Rigidbody2D>();
                 rb3.AddForce(barrelThreeRight.transform.up * 10, ForceMode2D.Impulse);
                 Destroy(projectile, 4);
+            }
+            else if (turretType == 4)
+            {
+                fireRate = 0.8f;
+                for (int i = 0; i < 3; i++)
+                {
+                    GameObject projectile = Instantiate(turretBullets, barrelOne.transform.position, Quaternion.identity);
+                    Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+                    rb.AddForce(barrelOne.transform.up * 10, ForceMode2D.Impulse);
+                    Destroy(projectile, 4);
+                    yield return new WaitForSeconds(0.1f);
+                }
             }
         }
     }
