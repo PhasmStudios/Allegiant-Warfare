@@ -8,7 +8,7 @@ public class Enemies : MonoBehaviour
     private float health, speed, spawnRange, direction, directionlimit, timeManager, turretDirection;
     public int damage;
     private GameObject tank;
-    public GameObject circleBullets, turretBullets;
+    public GameObject circleBullets;
     public Transform turretBody, turretBarrel;
     private TankControls script;
     void Start()
@@ -55,7 +55,6 @@ public class Enemies : MonoBehaviour
         }
         else
         {
-            StartCoroutine(TurretShoot());
             if (turretDirection == 1)
             {
                 transform.position = new Vector3(-11, 3.5f);
@@ -147,18 +146,6 @@ public class Enemies : MonoBehaviour
                 yield return null;
             }
             yield return null;
-        }
-    }
-
-    IEnumerator TurretShoot()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.5f);
-            GameObject projectile = Instantiate(turretBullets, turretBarrel.transform.position, Quaternion.identity);
-            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-            rb.AddForce(turretBarrel.transform.up * 10, ForceMode2D.Impulse);
-            Destroy(projectile, 3);
         }
     }
 
