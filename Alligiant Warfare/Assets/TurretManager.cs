@@ -7,17 +7,33 @@ public class TurretManager : MonoBehaviour
     public int turretType;
     private float fireRate;
     public Sprite[] turretSprites;
-    public GameObject barrelOne, barrelTwoRight, barrelTwoLeft, barrelThreeRight, barrelThreeLeft, barrelThreeMiddle, turretBullets;
+    public GameObject barrelOne, barrelTwoRight, barrelTwoLeft, barrelThreeRight, barrelThreeLeft, barrelThreeMiddle, barrelRocket, turretBullets;
+    public Transform tank;
+    Vector2 tankPosition;
     void Start()
     {
-        turretType = Random.Range(1, 6);
+        if (gameObject.name == "EnemyTurret(Clone)")
+        {
+            turretType = Random.Range(1, 6);
+        }
+        else
+        {
+            turretType = Random.Range(6, 7);
+        }
         this.GetComponent<SpriteRenderer>().sprite = turretSprites[turretType - 1];
         StartCoroutine(TurretShoot());
     }
 
     void Update()
     {
-        
+        tankPosition = tank.position;
+    }
+
+    void FixedUpdate()
+    {
+        Vector2 lookDirection = tankPosition - GetComponent<Rigidbody2D>().position;
+        float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg + 90f;
+        GetComponent<Rigidbody2D>().rotation = angle;
     }
     IEnumerator TurretShoot()
     {
@@ -83,6 +99,14 @@ public class TurretManager : MonoBehaviour
                     Destroy(projectile, 4);
                     yield return new WaitForSeconds(0.1f);
                 }
+            }
+            else if (turretType == 6)
+            {
+                fireRate = 2f;
+                GameObject projectile = Instantiate(turretBullets, barrelRocket.transform.position, barrelRocket.transform.rotation);
+                Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+                rb.AddForce(barrelRocket.transform.up * -15, ForceMode2D.Impulse);
+                Destroy(projectile, 4);
             }
         }
     }

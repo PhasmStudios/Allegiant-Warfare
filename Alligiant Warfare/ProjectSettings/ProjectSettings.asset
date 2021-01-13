@@ -706,6 +706,7 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Collab: 0
     UNet: 1
   luminIcon:
     m_Name: 
@@ -719,10 +720,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 65b6c86e-bcf3-4cb8-9d61-3ab001d03511
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Alligiant Warfare
+  organizationId: phasmstudio
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

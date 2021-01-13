@@ -6,6 +6,7 @@ public class Enemies : MonoBehaviour
 {
     public string type;
     private float health, speed, spawnRange, direction, directionlimit, timeManager, turretDirection;
+    public int missleTurretSide;
     public int damage;
     private GameObject tank;
     public GameObject circleBullets;
@@ -45,15 +46,21 @@ public class Enemies : MonoBehaviour
                 speed = 2f;
                 turretDirection = Random.Range(1, 3);
                 break;
+            case "RocketTurret":
+                type = "RocketTurret";
+                health = 10;
+                speed = 1.5f;
+                missleTurretSide = Random.Range(1, 3);
+                break;
         }
-        Destroy(gameObject, 10);
+        Destroy(gameObject, 20);
         //turrets
-        if(type != "turret")
+        if(type != "turret" && type != "RocketTurret")
         {
             transform.position = new Vector3(Random.Range(-spawnRange, spawnRange), 7);
             
         }
-        else
+        else if(type == "turret")
         {
             if (turretDirection == 1)
             {
@@ -66,6 +73,17 @@ public class Enemies : MonoBehaviour
                 transform.position = new Vector3(11, 3.5f);
                 transform.rotation = Quaternion.Euler(0, 0, -90);
                 turretBody.rotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+        else if (type == "RocketTurret")
+        {
+            if (missleTurretSide == 1)
+            {
+                transform.position = new Vector2(-7.5f, 8);
+            }
+            else if (missleTurretSide == 2)
+            {
+                transform.position = new Vector2(7.5f, 8);
             }
         }
         //turrets end
@@ -97,6 +115,14 @@ public class Enemies : MonoBehaviour
         {
 
             transform.Translate(new Vector2(0, -speed) * Time.deltaTime);
+        }
+        else if (type == "RocketTurret")
+        {
+            if (transform.position.y > 4)
+            {
+                transform.Translate(new Vector2(0, -speed) * Time.deltaTime);
+            }
+
         }
     }
 

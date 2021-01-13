@@ -34,9 +34,8 @@ public class TankControls : MonoBehaviour
         fireRateSli.value = firerate;
         rb = GetComponent<Rigidbody2D>();
         optimization = GameObject.Find("Optimization");
-        speed = 5f;
-        bulletSpeed = 10f;
         fireButtonDown = false;
+        moveSpeedSli.value = 3;
     }
 
     void LateUpdate()
@@ -53,6 +52,7 @@ public class TankControls : MonoBehaviour
 
     void Debug()
     {
+        
         speed = moveSpeedSli.value;
         moveSpeedText.text = $"Move Speed: {speed.ToString("0.00")}";
         firerate = fireRateSli.value;
@@ -178,6 +178,11 @@ public class TankControls : MonoBehaviour
         else if (collision.collider.gameObject.name == "TurretBullet(Clone)")
         {
             health -= 3;
+            Destroy(collision.collider.gameObject);
+        }
+        else if (collision.collider.gameObject.name == "Missle(Clone)")
+        {
+            health -= 10;
             Destroy(collision.collider.gameObject);
         }
     }
