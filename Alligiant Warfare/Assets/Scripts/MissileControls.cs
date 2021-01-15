@@ -26,7 +26,7 @@ public class MissileControls : MonoBehaviour
         Vector2 direction = (Vector2)tank.transform.position - rb.position;
         direction.Normalize();
         float rotateAmount = Vector3.Cross(direction, transform.up).z;
-        rb.velocity = transform.up * 5;
+        rb.velocity = transform.up * 8;
         if (lockedOn)
         {
             rb.angularVelocity = -rotateAmount * 150f;
