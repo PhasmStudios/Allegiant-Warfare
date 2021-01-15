@@ -3515,7 +3515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1344752054
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4471,7 +4471,7 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1792019142
 GameObject:
@@ -5523,6 +5523,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 21c3df6bfc81df74685f1945ce369630, type: 3}
   - {fileID: 21300000, guid: 21c3df6bfc81df74685f1945ce369630, type: 3}
   - {fileID: 21300000, guid: a19c6931ca490f34d97b631cc8634b03, type: 3}
+  - {fileID: 21300000, guid: 1c0b7f7ec54eefd4587b598ce82246b5, type: 3}
   barrelOne: {fileID: 964613515}
   barrelTwoRight: {fileID: 0}
   barrelTwoLeft: {fileID: 0}
@@ -5593,7 +5594,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: a19c6931ca490f34d97b631cc8634b03, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1c0b7f7ec54eefd4587b598ce82246b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
