@@ -2356,13 +2356,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 964613515}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: -4.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2011140996}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &995734002
 GameObject:
   m_ObjectHideFlags: 0
@@ -5532,6 +5532,8 @@ MonoBehaviour:
   barrelThreeMiddle: {fileID: 0}
   barrelRocket: {fileID: 964613515}
   turretBullets: {fileID: 218272580739529578, guid: 1ae0380248bbda5468e45b9261260b3d,
+    type: 3}
+  homingMissile: {fileID: 1143303600798185440, guid: df5fc42bbefd54244941ae0243d2b19e,
     type: 3}
   tank: {fileID: 808806268}
 --- !u!50 &2011140998

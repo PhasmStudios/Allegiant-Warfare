@@ -7,7 +7,7 @@ public class TurretManager : MonoBehaviour
     public int turretType;
     private float fireRate;
     public Sprite[] turretSprites;
-    public GameObject barrelOne, barrelTwoRight, barrelTwoLeft, barrelThreeRight, barrelThreeLeft, barrelThreeMiddle, barrelRocket, turretBullets;
+    public GameObject barrelOne, barrelTwoRight, barrelTwoLeft, barrelThreeRight, barrelThreeLeft, barrelThreeMiddle, barrelRocket, turretBullets, homingMissile;
     public Transform tank;
     Vector2 tankPosition;
     void Start()
@@ -18,7 +18,7 @@ public class TurretManager : MonoBehaviour
         }
         else
         {
-            turretType = Random.Range(6, 7);
+            turretType = Random.Range(6, 8);
         }
         this.GetComponent<SpriteRenderer>().sprite = turretSprites[turretType - 1];
         StartCoroutine(TurretShoot());
@@ -105,8 +105,13 @@ public class TurretManager : MonoBehaviour
                 fireRate = 2f;
                 GameObject projectile = Instantiate(turretBullets, barrelRocket.transform.position, barrelRocket.transform.rotation);
                 Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-                rb.AddForce(barrelRocket.transform.up * -15, ForceMode2D.Impulse);
+                rb.AddForce(barrelRocket.transform.up * 15, ForceMode2D.Impulse);
                 Destroy(projectile, 4);
+            }
+            else if (turretType == 7)
+            {
+                fireRate = 5f;
+                Instantiate(homingMissile, barrelRocket.transform.position, barrelRocket.transform.rotation);
             }
         }
     }

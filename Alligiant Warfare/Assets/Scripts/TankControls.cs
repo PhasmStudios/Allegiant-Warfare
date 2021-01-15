@@ -180,7 +180,12 @@ public class TankControls : MonoBehaviour
             health -= 3;
             Destroy(collision.collider.gameObject);
         }
-        else if (collision.collider.gameObject.name == "Missle(Clone)")
+        else if (collision.collider.gameObject.name == "HomingMissile(Clone)")
+        {
+            health -= 5;
+            Destroy(collision.collider.gameObject);
+        }
+        else if (collision.collider.gameObject.name == "RocketMissile(Clone)")
         {
             health -= 10;
             Destroy(collision.collider.gameObject);

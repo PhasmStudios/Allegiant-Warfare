@@ -53,7 +53,7 @@ public class Enemies : MonoBehaviour
                 missleTurretSide = Random.Range(1, 3);
                 break;
         }
-        Destroy(gameObject, 20);
+        Destroy(gameObject, 120);
         //turrets
         if(type != "turret" && type != "RocketTurret")
         {
