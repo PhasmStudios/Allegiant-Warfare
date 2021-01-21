@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9093372585326656491}
   m_Layer: 8
   m_Name: EnemyTurret
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,9 +119,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 
+  missleTurretSide: 0
+  diamondSide: 0
   damage: 0
   circleBullets: {fileID: 1703751216940441049, guid: 0a46a9f25c458d14285aee043b8a241f,
     type: 3}
+  diamondWarning: {fileID: 0}
   turretBody: {fileID: 9093372585867721159}
   turretBarrel: {fileID: 9093372587219159336}
 --- !u!61 &9093372585326656491
@@ -315,8 +318,11 @@ MonoBehaviour:
   barrelThreeRight: {fileID: 9093372586813012974}
   barrelThreeLeft: {fileID: 9093372587190478189}
   barrelThreeMiddle: {fileID: 9093372585519346573}
+  barrelRocket: {fileID: 0}
   turretBullets: {fileID: 9076646911264585205, guid: 0571723d702e42b47a2c9dc49d805936,
     type: 3}
+  homingMissile: {fileID: 0}
+  tank: {fileID: 0}
 --- !u!1 &9093372585962941305
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,10 +6,10 @@ public class Enemies : MonoBehaviour
 {
     public string type;
     private float health, speed, spawnRange, direction, directionlimit, timeManager, turretDirection;
-    public int missleTurretSide;
+    public int missleTurretSide, diamondSide;
     public int damage;
     private GameObject tank;
-    public GameObject circleBullets;
+    public GameObject circleBullets, diamondWarning;
     public Transform turretBody, turretBarrel;
     private TankControls script;
     void Start()
@@ -52,13 +52,32 @@ public class Enemies : MonoBehaviour
                 speed = 1.5f;
                 missleTurretSide = Random.Range(1, 3);
                 break;
+            case "DiamondEnemy":
+                type = "Diamond";
+                health = 3;
+                damage = 2;
+                diamondSide = Random.Range(1, 4);
+                speed = 10;
+                break;
+            case "HexagonEnemy":
+                type = "Hexagon";
+                health = 10;
+                damage = 5;
+                spawnRange = 5;
+                speed = 1;
+                break;
         }
-        Destroy(gameObject, 120);
+        Destroy(gameObject, 60);
         //turrets
-        if(type != "turret" && type != "RocketTurret")
+        if(type != "turret" && type != "RocketTurret" && type != "Diamond")
         {
             transform.position = new Vector3(Random.Range(-spawnRange, spawnRange), 7);
             
+        }
+        else if(type == "Diamond")
+        {
+            GetComponent<BoxCollider2D>().enabled = false;
+            StartCoroutine(DiamondCreate());
         }
         else if(type == "turret")
         {
@@ -102,7 +121,7 @@ public class Enemies : MonoBehaviour
 
     void Move()
     {
-        if (type == "square" || type == "CircleB")
+        if (type == "square" || type == "CircleB" || type  == "Diamond" || type == "Hexagon")
         {
             transform.Translate(new Vector2(0, -speed) * Time.deltaTime);
         }
@@ -185,5 +204,54 @@ public class Enemies : MonoBehaviour
             Destroy(bullet, 7);
         }
         Destroy(gameObject);
+    }
+
+    IEnumerator DiamondCreate()
+    {
+        if (diamondSide == 1)
+        {
+            transform.position = new Vector2(Random.Range(-8f, 8f), 25);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            GameObject warning = Instantiate(diamondWarning, new Vector3(transform.position.x, transform.position.y - 21, 0), Quaternion.identity);
+            SpriteRenderer renderer = warning.GetComponent<SpriteRenderer>();
+            for (int i = 0; i < 5; i++)
+            {
+                renderer.enabled = true;
+                yield return new WaitForSeconds(0.2f);
+                renderer.enabled = false;
+                yield return new WaitForSeconds(0.2f);
+            }
+            GetComponent<BoxCollider2D>().enabled = true;
+        }
+        else if (diamondSide == 2)
+        {
+            transform.position = new Vector2(-29, Random.Range(-4f, 4f));
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+            GameObject warning = Instantiate(diamondWarning, new Vector3(transform.position.x + 21, transform.position.y, 0), Quaternion.identity);
+            SpriteRenderer renderer = warning.GetComponent<SpriteRenderer>();
+            for (int i = 0; i < 5; i++)
+            {
+                renderer.enabled = true;
+                yield return new WaitForSeconds(0.2f);
+                renderer.enabled = false;
+                yield return new WaitForSeconds(0.2f);
+            }
+            GetComponent<BoxCollider2D>().enabled = true;
+        }
+        else if (diamondSide == 3)
+        {
+            transform.position = new Vector2(29, Random.Range(-4f, 4f));
+            transform.rotation = Quaternion.Euler(0, 0, -90);
+            GameObject warning = Instantiate(diamondWarning, new Vector3(transform.position.x - 21, transform.position.y, 0), Quaternion.identity);
+            SpriteRenderer renderer = warning.GetComponent<SpriteRenderer>();
+            for (int i = 0; i < 5; i++)
+            {
+                renderer.enabled = true;
+                yield return new WaitForSeconds(0.2f);
+                renderer.enabled = false;
+                yield return new WaitForSeconds(0.2f);
+            }
+            GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 }
